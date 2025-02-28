@@ -1,14 +1,12 @@
-# 🏥 Translation Web App with Generative AI
+🌍 UniVoice - AI-Powered Translation App
+UniVoice is an advanced AI-powered multilingual translation app that provides real-time text translation using Google Translate API. This Django-based web application enables seamless communication across languages with an intuitive and responsive interface.
 
-## 🌍 Overview
-The **Healthcare Translation Web App** is an AI-powered solution designed to bridge language barriers in medical settings. This application enables **real-time voice-to-text conversion, AI-powered translation, and text-to-speech playback**, ensuring seamless communication between healthcare providers and patients.
-
-🚀 **Key Features:**
-- 🎙 **Voice-to-Text**: Convert spoken words into text using Web Speech API.
-- 🌐 **AI-Powered Translation**: Translate text into multiple languages using OpenAI/Google Translate.
-- 🔊 **Text-to-Speech (TTS)**: Listen to translated text via speech synthesis.
-- 📱 **Mobile-First UI**: Fully responsive and optimized for various devices.
-- 🔒 **Secure & Scalable**: CSRF protection, input validation, and error handling.
+🚀 Features
+✅ Translate text between multiple languages
+✅ AI-powered translations using Google Translate API
+✅ Stores translation history in the database
+✅ Secure API endpoints for developers
+✅ Mobile-first design for a smooth user experience
 
 ---
 
