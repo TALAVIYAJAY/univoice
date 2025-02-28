@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Voice Translation</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            text-align: center;
+            padding: 30px;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffea00;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 5px solid #ffea00;
+            border-radius: 10px;
+            text-align: left;
+            color: #fff;
+        }
+        button {
+            padding: 12px 20px;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff0080, #ff8c00);
+            color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #ff8c00, #ff0080);
+            transform: scale(1.05);
+        }
+        .icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Voice Translation</h1>
+
+        <label for="inputLanguage">Select Input Language:</label>
+        <select id="inputLanguage">
+            <option value="en-US" selected>English</option>
+            <option value="hi-IN">Hindi</option>
+            <option value="fr-FR">French</option>
+            <option value="de-DE">German</option>
+            <option value="ja-JP">Japanese</option>
+        </select>
+
+        <label for="outputLanguage">Select Translation Language:</label>
+        <select id="outputLanguage">
+            <option value="en" selected>English</option>
+            <option value="hi">Hindi</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="ja">Japanese</option>
+        </select>
+
+        <button id="startRecord"><span class="icon">🎤</span> Start Recording</button>
+
+        <div class="result">
+            <h3>📝 Transcribed Text:</h3>
+            <p id="transcribedText">-</p>
+        </div>
+
+        <div class="result">
+            <h3>🌐 Translated Text:</h3>
+            <p id="translatedText">-</p>
+        </div>
+
+        <button id="speakButton"><span class="icon">🔊</span> Speak Translation</button>
+    </div>
+
+    <script>
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        let synth = window.speechSynthesis;
+        
+        document.getElementById("inputLanguage").value = "en-US";
+        document.getElementById("outputLanguage").value = "hi";
+    
+        function updateRecognitionLanguage() {
+            let selectedLang = document.getElementById("inputLanguage").value;
+            recognition.lang = selectedLang;
+            console.log("Speech recognition set to:", recognition.lang);
+        }
+    
+        document.getElementById("inputLanguage").addEventListener("change", function() {
+            resetTextFields();
+            updateRecognitionLanguage();
+        });
+    
+        document.getElementById("outputLanguage").addEventListener("change", function() {
+            resetTextFields();
+            updateSpeakButtonState();
+        });
+    
+        function resetTextFields() {
+            document.getElementById("transcribedText").innerText = "-";
+            document.getElementById("translatedText").innerText = "-";
+            updateSpeakButtonState();
+        }
+    
+        document.getElementById("startRecord").addEventListener("click", function() {
+            document.getElementById("startRecord").innerHTML = "<span class='icon'>🎙️</span> Listening...";
+            recognition.start();
+        });
+    
+        recognition.onresult = async function(event) {
+            let speechToText = event.results[0][0].transcript;
+            console.log("Recognized Speech:", speechToText);
+            document.getElementById("transcribedText").innerText = speechToText;
+        
+            // Get input language (code and name)
+            let inputLangDropdown = document.getElementById("inputLanguage");
+            let inputLangCode = inputLangDropdown.value;
+            let inputLangName = inputLangDropdown.options[inputLangDropdown.selectedIndex].text;
+        
+            // Get output language (code and name)
+            let outputLangDropdown = document.getElementById("outputLanguage");
+            let outputLangCode = outputLangDropdown.value;
+            let outputLangName = outputLangDropdown.options[outputLangDropdown.selectedIndex].text;
+        
+            // Send both language code and name to the backend
+            let response = await fetch("/translate-text/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    text: speechToText, 
+                    source_lang_code: inputLangCode, 
+                    source_lang_name: inputLangName,
+                    target_lang_code: outputLangCode, 
+                    target_lang_name: outputLangName 
+                })
+            });
+        
+            let data = await response.json();
+            console.log("Translation Response:", data);
+            if (data.translation) {
+                document.getElementById("translatedText").innerText = data.translation;
+            } else {
+                alert("Translation failed: " + data.error);
+            }
+        
+            document.getElementById("startRecord").innerHTML = "<span class='icon'>🎤</span> Start Recording";
+            updateSpeakButtonState();
+        };        
+    
+        recognition.onerror = function(event) {
+            alert("Speech recognition error: " + event.error);
+            document.getElementById("startRecord").innerHTML = "<span class='icon'>🎤</span> Start Recording";
+        };
+    
+        function getVoiceForLanguage(languageCode) {
+            let voices = synth.getVoices();
+            let langMap = {
+                "en": "en-US",
+                "hi": "hi-IN",
+                "fr": "fr-FR",
+                "de": "de-DE",
+                "ja": "ja-JP",
+            };
+            let matchedLang = langMap[languageCode] || "en-US";
+            return voices.find(voice => voice.lang.startsWith(matchedLang)) || voices[0];
+        }
+    
+        document.getElementById("speakButton").addEventListener("click", function() {
+            let translatedText = document.getElementById("translatedText").innerText;
+            let outputLang = document.getElementById("outputLanguage").value;
+    
+            if (translatedText === "-") return;
+    
+            let utterance = new SpeechSynthesisUtterance(translatedText);
+            let selectedVoice = getVoiceForLanguage(outputLang);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            utterance.lang = outputLang;
+            synth.speak(utterance);
+        });
+    
+        function updateSpeakButtonState() {
+            let transcribedText = document.getElementById("transcribedText").innerText.trim();
+            let translatedText = document.getElementById("translatedText").innerText.trim();
+            let speakButton = document.getElementById("speakButton");
+    
+            speakButton.disabled = (transcribedText === "-" && translatedText === "-");
+        }
+    
+        synth.onvoiceschanged = updateSpeakButtonState;
+        updateRecognitionLanguage();
+        updateSpeakButtonState();
+    </script>
+    
+</body>
+</html>
