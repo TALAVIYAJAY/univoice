@@ -1,4 +1,4 @@
-# 🏥 Healthcare Translation Web App with Generative AI
+# 🏥 Translation Web App with Generative AI
 
 ## 🌍 Overview
 The **Healthcare Translation Web App** is an AI-powered solution designed to bridge language barriers in medical settings. This application enables **real-time voice-to-text conversion, AI-powered translation, and text-to-speech playback**, ensuring seamless communication between healthcare providers and patients.
@@ -15,7 +15,7 @@ The **Healthcare Translation Web App** is an AI-powered solution designed to bri
 ## 🛠️ Tech Stack
 - **Backend**: Django, Python
 - **Frontend**: HTML, CSS, JavaScript
-- **AI & NLP**: OpenAI API / Google Translate API
+- **AI & NLP**: Google Translate API
 - **Speech Recognition & Synthesis**: Web Speech API
 - **Database**: PostgreSQL (or SQLite for development)
 - **Deployment**: Render
