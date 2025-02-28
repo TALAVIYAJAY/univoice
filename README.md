@@ -1,12 +1,12 @@
-🌍 UniVoice - AI-Powered Translation App
+# 🌍 UniVoice - AI-Powered Translation App
 UniVoice is an advanced AI-powered multilingual translation app that provides real-time text translation using Google Translate API. This Django-based web application enables seamless communication across languages with an intuitive and responsive interface.
 
-🚀 Features
-✅ Translate text between multiple languages
-✅ AI-powered translations using Google Translate API
-✅ Stores translation history in the database
-✅ Secure API endpoints for developers
-✅ Mobile-first design for a smooth user experience
+## 🚀 **Features**  
+✅ Translate text between multiple languages  
+✅ AI-powered translations using **Google Translate API**  
+✅ Stores translation history in the database  
+✅ Secure API endpoints for **developers**  
+✅ **Mobile-first design** for a smooth user experience  
 
 ---
 
@@ -29,8 +29,8 @@ UniVoice is an advanced AI-powered multilingual translation app that provides re
 
 ### 1️⃣ Clone the Repository
 ```sh
-$ git clone https://github.com/yourusername/healthcare-translation.git
-$ cd healthcare-translation
+$ git clone https://github.com/TALAVIYAJAY/univoice.git
+$ cd healthcare_live
 ```
 
 ### 2️⃣ Set Up a Virtual Environment
