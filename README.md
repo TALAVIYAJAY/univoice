@@ -30,7 +30,7 @@ UniVoice is an advanced AI-powered multilingual translation app that provides re
 ### 1️⃣ Clone the Repository
 ```sh
 $ git clone https://github.com/TALAVIYAJAY/univoice.git
-$ cd healthcare_live
+$ cd univoice-main
 ```
 
 ### 2️⃣ Set Up a Virtual Environment
