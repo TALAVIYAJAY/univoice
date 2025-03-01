@@ -65,6 +65,7 @@ $ python manage.py runserver
 ```
 Visit **`http://127.0.0.1:8000/`** in your browser.
 
-
+## **Project Explanation and Documentation**  
+A detailed walkthrough of the project can be found here: [Documentation Link](https://drive.google.com/drive/folders/1LuxVzDR7o08BjGpEOSULPdvs9f1U4gay?usp=sharing)
 
 
