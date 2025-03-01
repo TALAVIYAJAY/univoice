@@ -15,7 +15,7 @@ UniVoice is an advanced AI-powered multilingual translation app that provides re
 - **Frontend**: HTML, CSS, JavaScript
 - **AI & NLP**: Google Translate API
 - **Speech Recognition & Synthesis**: Web Speech API
-- **Database**: PostgreSQL (or SQLite for development)
+- **Database**: PostgreSQL 
 - **Deployment**: Render
 
 ---
